@@ -1,0 +1,93 @@
+class Library:
+    def __init__(self):
+        self.items = {}
+
+    def add_item(self, title, author, category):
+        self.items[title] = {"author": author, "category": category, "checked_out": False, "overdue_fine": 0}
+
+    def check_out(self, title):
+        if title in self.items:
+            if not self.items[title]["checked_out"]:
+                self.items[title]["checked_out"] = True
+                print(f"You have checked out '{title}'.")
+            else:
+                print(f"'{title}' is already checked out.")
+        else:
+            print(f"'{title}' is not in the library.")
+
+    def return_item(self, title):
+        if title in self.items:
+            if self.items[title]["checked_out"]:
+                self.items[title]["checked_out"] = False
+                print(f"You have returned '{title}'.")
+            else:
+                print(f"'{title}' is not checked out.")
+        else:
+            print(f"'{title}' is not in the library.")
+
+    def manage_overdue_fines(self):
+        for title, item in self.items.items():
+            if item["checked_out"]:
+                item["overdue_fine"] += 1
+                print(f"Overdue fine for '{title}' is ${item['overdue_fine']}")
+
+    def search_by_title(self, title):
+        for item_title, item in self.items.items():
+            if title.lower() in item_title.lower():
+                print(f"Title: {item_title}, Author: {item['author']}, Category: {item['category']}")
+
+    def search_by_author(self, author):
+        for item_title, item in self.items.items():
+            if author.lower() in item['author'].lower():
+                print(f"Title: {item_title}, Author: {item['author']}, Category: {item['category']}")
+
+    def search_by_category(self, category):
+        for item_title, item in self.items.items():
+            if category.lower() in item['category'].lower():
+                print(f"Title: {item_title}, Author: {item['author']}, Category: {item['category']}")
+
+def main():
+    library = Library()
+
+    while True:
+        print("\nLibrary Management System")
+        print("1. Add new item")
+        print("2. Check out item")
+        print("3. Return item")
+        print("4. Manage overdue fines")
+        print("5. Search by title")
+        print("6. Search by author")
+        print("7. Search by category")
+        print("8. Quit")
+
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            title = input("Enter title: ")
+            author = input("Enter author: ")
+            category = input("Enter category: ")
+            library.add_item(title, author, category)
+        elif choice == "2":
+            title = input("Enter title: ")
+            library.check_out(title)
+        elif choice == "3":
+            title = input("Enter title: ")
+            library.return_item(title)
+        elif choice == "4":
+            library.manage_overdue_fines()
+        elif choice == "5":
+            title = input("Enter title: ")
+            library.search_by_title(title)
+        elif choice == "6":
+            author = input("Enter author: ")
+            library.search_by_author(author)
+        elif choice == "7":
+            category = input("Enter category: ")
+            library.search_by_category(category)
+        elif choice == "8":
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
